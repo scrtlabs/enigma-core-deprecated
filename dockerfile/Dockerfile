@@ -24,5 +24,6 @@ RUN chmod +x /root/compile_launch.bash
 # Agressive build: we build it even it fails. Will always return true
 RUN cd enigma-core/enigma-core && . /opt/sgxsdk/environment && . /root/.cargo/env && SGX_MODE=$SGX_MODE RUSTFLAGS=-Awarnings make || true
 
+ENV SGX_MODE=HW
 ENTRYPOINT ["/usr/bin/env"]
-#CMD ["/bin/bash","-c","./compile_launch.bash; bash"]
+CMD ["/bin/bash","-c","./compile_launch.bash; bash"]
