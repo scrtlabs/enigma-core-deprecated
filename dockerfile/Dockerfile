@@ -25,4 +25,4 @@ RUN chmod +x /root/compile_launch.bash
 RUN cd enigma-core/enigma-core && . /opt/sgxsdk/environment && . /root/.cargo/env && SGX_MODE=$SGX_MODE RUSTFLAGS=-Awarnings make || true
 
 ENTRYPOINT ["/usr/bin/env"]
-CMD ["/bin/bash","-c","./compile_launch.bash; bash"]
+#CMD ["/bin/bash","-c","./compile_launch.bash; bash"]
