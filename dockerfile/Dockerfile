@@ -18,12 +18,11 @@ ARG SGX_MODE
 RUN echo "#!/bin/bash \n\
 /opt/intel/sgxpsw/aesm/aesm_service \n\
 . /opt/sgxsdk/environment && . /root/.cargo/env && cd /root/enigma-core/enigma-core && SGX_MODE=$SGX_MODE RUSTFLAGS=-Awarnings make \n\
-cd /root/enigma-core/enigma-core/bin && ./app" > /root/compile_launch.bash
-RUN chmod +x /root/compile_launch.bash
+cd /root/enigma-core/enigma-core/app && cargo test" > /root/compile_test.bash
+RUN chmod +x /root/compile_test.bash
 
 # Agressive build: we build it even it fails. Will always return true
 RUN cd enigma-core/enigma-core && . /opt/sgxsdk/environment && . /root/.cargo/env && SGX_MODE=$SGX_MODE RUSTFLAGS=-Awarnings make || true
 
-ENV SGX_MODE=HW
 ENTRYPOINT ["/usr/bin/env"]
-CMD ["/bin/bash","-c","./compile_launch.bash; bash"]
+CMD ["/bin/bash","-c","./compile_test.bash; bash"]
