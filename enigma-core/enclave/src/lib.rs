@@ -100,8 +100,10 @@ pub extern "C" fn ecall_evm(bytecode: *const u8, bytecode_len: usize,
     let callback_slice = unsafe { slice::from_raw_parts(callback, callback_len) };
 
     let callable_args = read_hex(from_utf8(callable_args_slice).unwrap()).unwrap();
+    println!("CALLABLE ARGS: {:?}", from_utf8(callable_args_slice).unwrap());
     let bytecode = read_hex(from_utf8(bytecode_slice).unwrap()).unwrap();
-    println!("BYTECODE: {:?}", bytecode);
+    println!("BYTECODE: {:?}", from_utf8(bytecode_slice).unwrap());
+    println!("CALLABLE: {:?}", from_utf8(callable_slice).unwrap());
     let data = match  prepare_evm_input(callable_slice, &callable_args, preprocessor_slice){
         Ok(v) => {
             v
