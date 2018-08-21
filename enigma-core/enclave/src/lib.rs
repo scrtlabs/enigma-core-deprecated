@@ -101,6 +101,7 @@ pub extern "C" fn ecall_evm(bytecode: *const u8, bytecode_len: usize,
 
     let callable_args = read_hex(from_utf8(callable_args_slice).unwrap()).unwrap();
     let bytecode = read_hex(from_utf8(bytecode_slice).unwrap()).unwrap();
+    println!("BYTECODE: {:?}", bytecode);
     let data = match  prepare_evm_input(callable_slice, &callable_args, preprocessor_slice){
         Ok(v) => {
             v
@@ -111,6 +112,7 @@ pub extern "C" fn ecall_evm(bytecode: *const u8, bytecode_len: usize,
         },
     };
     let mut res = call_sputnikvm(&bytecode, data);
+    println!("RESULTS: {:?}, {:?}", res.0, res.1);
     let mut out_signature = Vec::<u8>::new();
     let mut callback_data = vec![];
     if callback_slice.len() > 0 {
