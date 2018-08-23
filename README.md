@@ -55,7 +55,7 @@ Successfully built cd6787969fd1
 * run docker:
 
 ```
-docker run -v /some/path/enigma-core/:/root/enigma-core -ti -p 5552:5552 --device /dev/isgx enigma_core
+docker run -v /some/path/enigma-core/:/root/enigma-core -ti --net="host" --device /dev/isgx enigma_core
 ```
 
 * build the project 
@@ -102,7 +102,7 @@ cargo test -- --nocapture
 
 ```
 cd root/enigma-core/enigma-core/bin
-./app
+./enigma-core-app
 ```
 
 ### Simulation Mode
