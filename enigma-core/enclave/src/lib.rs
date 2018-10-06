@@ -92,8 +92,6 @@ pub extern "C" fn ecall_evm(bytecode: *const u8, bytecode_len: usize,
                             preprocessor: *const u8, preprocessor_len: usize,
                             callback: *const u8, callback_len: usize,
                             output: *mut u8, signature: &mut [u8; 65], result_len: &mut usize) -> sgx_status_t {
-    println!("UPDATED");
-
     let bytecode_slice = unsafe { slice::from_raw_parts(bytecode, bytecode_len) };
     let callable_slice = unsafe { slice::from_raw_parts(callable, callable_len) };
     let callable_args_slice = unsafe { slice::from_raw_parts(callable_args, callable_args_len) };
@@ -101,10 +99,7 @@ pub extern "C" fn ecall_evm(bytecode: *const u8, bytecode_len: usize,
     let callback_slice = unsafe { slice::from_raw_parts(callback, callback_len) };
 
     let callable_args = read_hex(from_utf8(callable_args_slice).unwrap()).unwrap();
-    println!("CALLABLE ARGS: {:?}", from_utf8(callable_args_slice).unwrap());
     let bytecode = read_hex(from_utf8(bytecode_slice).unwrap()).unwrap();
-    println!("BYTECODE: {:?}", from_utf8(bytecode_slice).unwrap());
-    println!("CALLABLE: {:?}", from_utf8(callable_slice).unwrap());
     let data = match  prepare_evm_input(callable_slice, &callable_args, preprocessor_slice){
         Ok(v) => {
             v
@@ -115,7 +110,6 @@ pub extern "C" fn ecall_evm(bytecode: *const u8, bytecode_len: usize,
         },
     };
     let mut res = call_sputnikvm(&bytecode, data);
-    println!("RESULTS: {:?}, {:?}", res.0, res.1);
     let mut out_signature = Vec::<u8>::new();
     let mut callback_data = vec![];
     if callback_slice.len() > 0 {
