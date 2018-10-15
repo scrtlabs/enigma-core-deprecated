@@ -121,7 +121,7 @@ pub fn prepare_evm_input(callable: &[u8], callable_args: &[u8], preproc: &[u8]) 
     if types_vector.len() != args_vector.len(){
         return Err(EnclaveError::InputError{message: "The number of function arguments does not match the number of actual parameters in ".to_string()+&function_name});
     }
-    let params = match encode_params(&types_vector[..], &args_vector[..], false){
+    let params = match encode_params(&types_vector[..], &args_vector[..], true){
         Ok(v) => v,
         Err(e) => return Err(EnclaveError::InputError{message: "Error in encoding of ".to_string()+&function_name+&": ".to_string()+&e.to_string()}),
     };

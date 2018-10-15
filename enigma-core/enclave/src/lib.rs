@@ -92,7 +92,6 @@ pub extern "C" fn ecall_evm(bytecode: *const u8, bytecode_len: usize,
                             preprocessor: *const u8, preprocessor_len: usize,
                             callback: *const u8, callback_len: usize,
                             output: *mut u8, signature: &mut [u8; 65], result_len: &mut usize) -> sgx_status_t {
-
     let bytecode_slice = unsafe { slice::from_raw_parts(bytecode, bytecode_len) };
     let callable_slice = unsafe { slice::from_raw_parts(callable, callable_len) };
     let callable_args_slice = unsafe { slice::from_raw_parts(callable_args, callable_args_len) };

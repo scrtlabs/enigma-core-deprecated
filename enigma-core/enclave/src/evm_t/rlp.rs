@@ -43,9 +43,11 @@ fn convert_undecrypted_value_to_string(rlp: &UntrustedRlp, arg_type: &SolidityTy
             }
         },
         &SolidityType::Uint => {
-            let num_result: Result<u64, DecoderError> = rlp.as_val();
+            let num_result: Result<Vec<u8>, DecoderError> = rlp.as_val();
             result = match num_result {
-                Ok(v) => complete_to_u256(v.to_string()),
+                Ok(v) => {
+                    complete_to_u256(v.to_hex())
+                },
                 Err(_e) => return Err(EnclaveError::InputError { message: rlp_error }),
             }
         },
@@ -96,6 +98,7 @@ pub fn complete_to_u256(num: String) -> String {
     result
 }
 
+
 fn decrypt_rlp(v: &[u8], key: &[u8], arg_type: &SolidityType) -> Result<String, EnclaveError> {
     let encrypted_value = match from_utf8(&v){
         Ok(value) => value,
@@ -120,10 +123,7 @@ fn decrypt_rlp(v: &[u8], key: &[u8], arg_type: &SolidityType) -> Result<String, 
                                 decrypted_str.remove(0);
                             }
                         },
-                        &SolidityType::Uint => {
-                            let num: U256 = v[..].into();
-                            decrypted_str = complete_to_u256(num.to_string());
-                        },
+                        &SolidityType::Uint => decrypted_str = complete_to_u256(v.to_hex()),
                         &SolidityType::Bool => {
                             let mut static_type_num= [0u8; 1];
                             static_type_num[..v.len()].clone_from_slice(&v);
