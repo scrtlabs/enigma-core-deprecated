@@ -1,3 +1,6 @@
+# The code has been moved to a new repository: https://github.com/enigmampc/enigma-core
+
+
 # Enigma Core library 
 
 | Service | Master | Develop |
